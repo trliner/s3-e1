@@ -2,12 +2,14 @@ require 'rubygems'
 require 'sinatra'
 require 'nibbler'
 require 'open-uri'
+require 'cgi'
 
 class Nibblet < Nibbler
 end
 
-get '/:domain/:selector' do
+get '/nibblet/:selector' do
   Nibblet.element params[:selector] => :selected
-  nibble = Nibblet.parse open("http://#{params[:domain]}")
+  url = CGI::unescape params[:url]
+  nibble = Nibblet.parse open(url)
   nibble.selected
 end
