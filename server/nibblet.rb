@@ -8,6 +8,7 @@ require 'json'
 class Nibblet < Nibbler
 
   def self.add_selectors(selector_hash)
+    selector_hash.default = {}
     selector_hash["single"].each do |element_key, selector|
       self.element selector => element_key.to_sym
     end
