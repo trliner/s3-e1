@@ -7,9 +7,10 @@ require 'cgi'
 class Nibblet < Nibbler
 end
 
-get '/nibblet/:selector' do
-  Nibblet.element params[:selector] => :selected
+get '/nibblet' do
+  selector = CGI::unescape params[:selector]
   url = CGI::unescape params[:url]
+  Nibblet.element selector => :selected
   nibble = Nibblet.parse open(url)
   nibble.selected
 end
