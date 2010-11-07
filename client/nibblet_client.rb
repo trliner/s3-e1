@@ -14,7 +14,7 @@ class NibbletClient
 
   def scrape
     params = { :url => @encoded_url, :selectors => @encoded_selectors }
-    self.class.get("/nibblet", :query => params).parsed_response
+    self.class.get("/nibblet/xls", :query => params)
   end
 
   private

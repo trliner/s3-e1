@@ -1,0 +1,32 @@
+<table border="1">
+  <% @selectors.each do |selector_key, opts| %>
+    <% if !opts["multiple"] & opts["block"].nil? %>
+      <tr>
+        <th><%= selector_key.capitalize %></th>
+        <td><%= @results[selector_key].capitalize %></td>
+      </tr>
+    <% elsif opts["multiple"] %>
+      <tr>
+        <th><%= selector_key.capitalize %></th>
+        <% @results[selector_key].each do |result| %>
+          <td><%= result.capitalize %></td>
+        <% end %>
+      </tr>
+    <% else %>
+      <% keys = @selectors[selector_key]["block"].keys %>
+      <tr><th><%= selector_key.to_s.capitalize %></th></tr>
+      <tr>
+        <% keys.each do |key| %>
+          <th><%= key.capitalize %></th>
+        <% end %>
+      </tr>
+      <% @results[selector_key].each do |result| %>
+        <tr>
+          <% keys.each do |key| %>
+            <td><%= result[key] %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  <% end %>
+</table>
