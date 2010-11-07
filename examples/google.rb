@@ -1,7 +1,6 @@
 require '../client/nibblet_client.rb'
 
-selectors = {}
-selectors[:block] = {
+selectors = {
   :results => {
     :selector => "div#ires li",
     :block => {:title => "h3.r a", :url => "h3.r a/@href"}

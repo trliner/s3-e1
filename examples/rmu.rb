@@ -1,7 +1,20 @@
 require '../client/nibblet_client.rb'
 
-selectors = {}
-selectors[:single] = {:title => "h1", :subtitle => "h2"}
-selectors[:multiple] = {:buttons => "div.box h3", :info => "div#overview .info"}
+selectors = {
+  :title => {
+    :selector => "h1"
+  },
+  :subtitle => {
+    :selector => "h2"
+  },
+  :buttons => {
+    :selector => "div.box h3",
+    :multiple => true
+  },
+  :info => {
+    :selector => "div#overview .info",
+    :multiple => true
+  }
+}
 rmu = NibbletClient.new("http://university.rubymendicant.com", selectors)
 puts rmu.scrape
