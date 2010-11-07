@@ -15,31 +15,29 @@ class Nibblet < Nibbler
   end
 
   def results_hash(selectors)
-    results = {}
-    selectors.each do |selector_key, opts|
+    results = selectors.inject({}) do |hash, selector|
+      selector_key, opts = selector
       if opts["block"].nil?
-        results.merge! self.collect_elements(selector_key)
+        hash.merge self.element_hash(selector_key)
       else
-        results.merge! self.collect_iterators(selector_key, opts)
+        hash.merge self.block_hash(selector_key, opts)
       end
     end
-    results
   end
 
-  def collect_elements(selector_key)
-    {selector_key => self.send(selector_key.to_sym)}
+  def element_hash(element_key)
+    {element_key => self.send(element_key.to_sym)}
   end
 
-  def collect_iterators(selector_key, opts)
-    block_keys = opts["block"].keys
-    block_array = self.send(selector_key.to_sym).inject([]) do |array, iterator|
-      element_hash = block_keys.inject({}) do |hash, e_key|
-        element = iterator.send(e_key.to_sym)
-        hash.merge(e_key => element)
+  def block_hash(block_key, opts)
+    block_elements = self.send(block_key.to_sym)
+    block_element_keys = opts["block"].keys
+    block_array = block_elements.collect do |block|
+      block_element_keys.inject({}) do |hash, element_key|
+        hash.merge(element_key => block.send(element_key.to_sym))
       end
-      array << element_hash
     end
-    {selector_key => block_array}
+    {block_key => block_array}
   end
 
 end
